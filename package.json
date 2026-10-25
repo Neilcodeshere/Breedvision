@@ -1,0 +1,12 @@
+{
+  "name": "breedvision",
+  "private": true,
+  "description": "Root convenience scripts. The web app itself lives in web/.",
+  "scripts": {
+    "dev": "npm --prefix web run dev",
+    "build": "npm --prefix web run build",
+    "start": "npm --prefix web run start",
+    "lint": "npm --prefix web run lint",
+    "typecheck": "npm --prefix web exec tsc -- --noEmit"
+  }
+}

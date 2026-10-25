@@ -1,0 +1,22 @@
+# BreedVision — Phase 1 (dataset engineering) dependencies.
+# Direct dependencies only; pip resolves the transitive set.
+# Verified installable on Python 3.14 (cp314) / Windows on 2026-08-19.
+#
+#   python -m venv C:/bv-data/venv
+#   C:/bv-data/venv/Scripts/python -m pip install -r ml/requirements.txt
+
+numpy==2.5.2
+pandas==3.0.5
+pyarrow==25.0.1              # parquet engine for the metadata artefacts
+pillow==12.3.0
+opencv-python-headless==5.0.0.93
+ImageHash==4.3.2             # perceptual hashing for near-duplicate grouping
+scikit-learn==1.9.0          # StratifiedGroupKFold
+matplotlib==3.11.1
+seaborn==0.13.2
+tqdm==4.70.0
+PyYAML==6.0.3
+kaggle==2.2.4                # dataset download
+
+# Testing
+pytest==9.1.1

@@ -1,0 +1,69 @@
+# Node
+node_modules/
+dist/
+.vite/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Generated reports
+backend/reports/*
+!backend/reports/.gitkeep
+
+# AI model files
+*.pt
+*.pth
+*.onnx
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Dataset & model artifacts (live OUTSIDE the repo at C:/bv-data — audit Risk R2)
+data/
+artifacts/
+*.parquet
+*.npy
+
+# Test / tooling caches
+.pytest_cache/
+
+# Contact sheet of real dataset photographs. Excluded from version control
+# because it redistributes third-party images from the Kaggle source dataset,
+# whose licence terms have not been confirmed for redistribution. It is
+# regenerated locally by `python ml/scripts/make_report.py`.
+docs/figures/samples.png
+
+# Generated documents (PDF renders of docs/*.md). Regenerate with:
+#   python tools/md2pdf.py docs/<file>.md --out-dir build
+build/
