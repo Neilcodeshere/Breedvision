@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   BreedVision — design tokens
+   ----------------------------------------------------------------------------
+   Single source of truth for the visual system. Nothing in the app should use
+   a raw hex value; everything resolves through a token below.
+
+   Palette intent: warm paper, mid-tone forest green, earthy neutrals. Green marks
+   the primary action and "confident" state only — it is deliberately NOT the
+   ambient UI colour, so it retains meaning where it appears.
+
+   This product commits to a single light theme. It is used outdoors on phones
+   where a warm, high-contrast paper surface reads better than a dark UI, and a
+   dark variant would change the meaning of the confidence colour ramp.
+   ========================================================================== */
+
+@theme {
+  /* --- surfaces (warm paper) ---------------------------------------------- */
+  --color-paper: #faf7f1;        /* page background */
+  --color-paper-sunk: #f2eee5;   /* recessed wells, table stripes */
+  --color-surface: #ffffff;      /* raised cards, inputs */
+  --color-cream: #ede7d9;        /* quiet fills, image placeholders */
+
+  /* --- ink (charcoal, never pure black) ----------------------------------- */
+  --color-ink: #1a1917;          /* primary text */
+  --color-ink-2: #46433c;        /* secondary text */
+  --color-ink-3: #6b665c;        /* supporting / meta */
+  /* placeholder / disabled. 4.99:1 on surface, 4.67:1 on paper, but only
+     4.31:1 on paper-sunk — use ink-3 for text on sunk backgrounds. */
+  --color-ink-4: #756f62;
+
+  /* --- lines ---------------------------------------------------------------
+     `line` / `line-strong` are DECORATIVE dividers and card edges. They are
+     intentionally low-contrast and are exempt from WCAG 1.4.11, which applies
+     to boundaries that identify a control.
+
+     `field-line` bounds actual form controls, where the border IS the thing
+     that identifies the input. Measured 3.53:1 on surface, 3.30:1 on paper —
+     both clear the 3:1 requirement. Do not swap these two. */
+  --color-line: #e3dcce;
+  --color-line-strong: #cfc6b3;
+  --color-field-line: #94876d;
+
+  /* --- forest green: primary action + "confident" -------------------------
+     Lightened from the original near-black forest. Each step is contrast-
+     verified for the job it actually does:
+       forest      text AND background -> 5.21:1 both ways on paper (AA)
+       forest-deep text on tints, hover -> 6.90:1 on paper (AA)
+       forest-mid  fill only, never text -> 3.90:1 on the cream meter track
+     `forest-mid` must stay a fill. If it is ever used for text it fails AA,
+     so reach for `forest-deep` instead. */
+  --color-forest: #347453;
+  --color-forest-deep: #276046;  /* hover / pressed, and text on tints */
+  --color-forest-mid: #3a7f5b;   /* meter fill — decorative only */
+  --color-forest-soft: #eaf4ec;  /* tinted background */
+
+  /* --- terracotta: accent, used sparingly for emphasis -------------------- */
+  --color-terracotta: #a4512b;
+  --color-terracotta-soft: #f7ece4;
+
+  /* --- confidence ramp (earthy, not neon) --------------------------------- */
+  --color-amber: #8a6614;        /* "uncertain" */
+  --color-amber-soft: #f6eedc;
+  --color-clay: #8f3a22;         /* "low" / error */
+  --color-clay-soft: #f8eae5;
+
+  /* --- typography --------------------------------------------------------- */
+  --font-sans: var(--font-inter), var(--font-devanagari), var(--font-tamil),
+    var(--font-telugu), ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: 3.25rem;       /* 52px, fluid override below */
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.032em;
+
+  --text-section: 2.125rem;      /* 34px */
+  --text-section--line-height: 1.14;
+  --text-section--letter-spacing: -0.024em;
+
+  --text-title: 1.75rem;         /* 28px */
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.02em;
+
+  --text-lead: 1.125rem;         /* 18px */
+  --text-lead--line-height: 1.6;
+
+  --text-body: 1rem;             /* 16px */
+  --text-body--line-height: 1.62;
+
+  --text-small: 0.875rem;        /* 14px */
+  --text-small--line-height: 1.5;
+
+  --text-micro: 0.8125rem;       /* 13px */
+  --text-micro--line-height: 1.45;
+
+  /* --- radius: restrained. Nothing in this product is a pill except tags. -- */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+
+  /* --- elevation: one level, warm-tinted. Anything that needs to float uses
+     `shadow-float`; everything else uses a hairline border instead. --------- */
+  --shadow-float:
+    0 1px 3px rgba(26, 25, 23, 0.06), 0 8px 20px -8px rgba(26, 25, 23, 0.12);
+
+  /* --- motion: short and functional --------------------------------------- */
+  --ease-out-quiet: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Fluid display type: 40px on a phone, 64px on a wide desktop. */
+@layer base {
+  :root {
+    --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4rem);
+    --text-section: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem);
+    --text-title: clamp(1.625rem, 1.4rem + 0.9vw, 2.25rem);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Numeric data (confidence, counts, coordinates) must not jitter. */
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  /* Visible, consistent focus for keyboard users on every interactive node. */
+  :focus-visible {
+    outline: 2px solid var(--color-forest);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  ::selection {
+    background-color: var(--color-forest-soft);
+    color: var(--color-forest-deep);
+  }
+}
+
+/* Respect users who ask for reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

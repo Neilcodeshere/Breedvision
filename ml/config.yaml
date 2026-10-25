@@ -1,0 +1,107 @@
+# BreedVision — dataset & pipeline configuration
+# Single source of truth for paths, seeds and thresholds.
+# Nothing in ml/ may hardcode these values (Engineering Principle 6).
+
+project:
+  name: BreedVision
+  dataset_version: v1
+
+paths:
+  # Data lives OUTSIDE the OneDrive-synced repo (audit Risk R2).
+  data_root: "C:/bv-data"
+  raw: "C:/bv-data/raw"
+  interim: "C:/bv-data/interim"
+  processed: "C:/bv-data/processed"
+  train: "C:/bv-data/train"
+  val: "C:/bv-data/val"
+  test: "C:/bv-data/test"
+  metadata: "C:/bv-data/metadata"
+  reports: "C:/bv-data/reports"
+
+kaggle:
+  dataset: "atharvadarpude/indian-cattle-image-dataset"
+
+# Reproducibility: every stochastic step reads this seed.
+seed: 42
+
+inventory:
+  # Extensions treated as candidate images (case-insensitive).
+  # `.jpe` (1 file) and `.gif` (7 files) appear in the real dataset. They are
+  # included so they are inspected and reported rather than silently dropped;
+  # the validation stage decides whether they are usable.
+  extensions: [".jpg", ".jpeg", ".jpe", ".png", ".bmp", ".webp", ".gif"]
+  # Images with either side below this are flagged as too small to be useful.
+  min_dimension: 64
+  # Verify pixel data decodes, not just the header.
+  full_decode_check: true
+
+duplicates:
+  # Perceptual hash settings for near-duplicate / same-animal grouping.
+  # hash_size 8 -> 64-bit hash. Measured against the synthetic fixture
+  # (ml/tests/), 64-bit separated same-animal from different-animal pairs at
+  # least as well as 256-bit at a quarter of the cost:
+  #   same-animal   pairs: median 2,  p95 8,   max 14
+  #   different-animal   : p1 22,     median 32
+  phash_size: 8
+  # Max Hamming distance to call two images near-duplicates.
+  #
+  # DERIVED ON THE REAL DATASET (8,515 valid images), not on the fixture.
+  # Sweep result -- largest group size is the collapse indicator:
+  #
+  #   t=0   7,533 groups   largest 13     stable
+  #   t=4   7,414 groups   largest 13     stable
+  #   t=8   7,305 groups   largest 13     stable  <-- top of the plateau
+  #   t=10  7,142 groups   largest 23     drifting
+  #   t=13  6,605 groups   largest 190    collapsing
+  #   t=16  1,153 groups   largest 7,084  CATASTROPHIC (83% of the dataset)
+  #   t=19     11 groups   largest 8,505
+  #
+  # The earlier value of 16, calibrated on synthetic images, would have merged
+  # 83% of the dataset into one indivisible group and made the split
+  # impossible. Real photographs of *different* animals of the *same* breed are
+  # far more perceptually alike than synthetic textures, so the unrelated-pair
+  # distribution sits much closer to zero and the usable threshold is lower.
+  #
+  # 8 is the top of the stable plateau: it captures the most near-duplicates
+  # while the largest group is still unchanged from t=0.
+  phash_threshold: 8
+  # Cap on group size before flagging a suspicious mega-cluster.
+  max_group_size_warn: 50
+
+# Images and classes removed from the modelling set. Raw data is never deleted;
+# exclusions are applied at split time so any decision here is reversible and
+# the reasons stay attached to the data.
+exclusions:
+  classes:
+    Ayrshire: >-
+      Not an Indian indigenous breed. Ayrshire is a Scottish dairy breed and
+      falls outside the stated scope of Indian cattle identification.
+
+  # Byte-identical images filed under two or more different breed labels. Their
+  # ground truth contradicts itself, so they are unlearnable and they corrupt
+  # evaluation as well as training. Measured on v1: 216 sets, 483 files,
+  # touching 44 of 50 breeds. See docs/dataset-report.md section 7.1.
+  drop_cross_class_duplicates: true
+
+  # Scope note, recorded here because it constrains every downstream claim:
+  # this dataset contains cattle only. No buffalo breed is present, so buffalo
+  # identification is out of scope until a separate dataset is sourced.
+  scope: cattle-only
+
+split:
+  # Fractions must sum to 1.0.
+  train: 0.70
+  val: 0.15
+  test: 0.15
+  # Group-aware splitting prevents same-animal leakage across splits (Risk R4).
+  # Set false ONLY to reproduce the naive baseline for leakage comparison.
+  group_aware: true
+  # Classes with fewer than this many images cannot be split three ways
+  # meaningfully; they are reported and excluded from the modelling set.
+  min_images_per_class: 10
+
+report:
+  # Number of sample images per class in the contact-sheet visualization.
+  samples_per_class: 4
+  # Classes shown in the class-distribution bar chart (0 = all).
+  max_classes_plotted: 0

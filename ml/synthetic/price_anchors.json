@@ -1,0 +1,44 @@
+{
+  "_about": "Indicative cattle price anchors in Indian rupees. NOT a market survey and NOT live prices. Ranges come from dealer / breed-guide listings read in October 2026 (see sources). 'typical' is the geometric mean of low and high, rounded to the nearest 1,000. Edit this file, then run ml/scripts/make_synthetic_prices.py to regenerate the synthetic dataset and web/src/lib/price-anchors.generated.ts.",
+  "reference_date": "2026-10",
+  "reference_milk_yield_litres": 6,
+  "per_litre_inr": 4000,
+  "per_litre_note": "ASSUMPTION. One Karnataka project report prices a crossbred cow at Rs 110,000 for 25 litres/day, i.e. about Rs 4,400 per litre of daily yield (own arithmetic, one data point, crossbred not indigenous). Rounded down to 4,000. Not measured on indigenous breeds.",
+  "pregnancy_litre_equivalent": 1.548,
+  "pregnancy_note": "Ratio of the pregnancy effect (1,114.07) to the milk-yield effect (719.54 per litre) in Kumar et al. (2014), Indian J. Animal Sciences 84(11), Table 2. Only the ratio is used, not those 2010-11 rupee amounts.",
+  "default": {
+    "lowInr": 40000,
+    "highInr": 90000,
+    "typicalInr": 60000,
+    "basis": "No price source was found for this breed. This is the general desi-cow range: the median of the typical values of the breeds that do have a listed range, with the Tharparkar/Rathi range as its bounds."
+  },
+  "breeds": {
+    "Sahiwal": { "lowInr": 50000, "highInr": 150000, "source": "kamdhenu" },
+    "Gir": { "lowInr": 50000, "highInr": 150000, "source": "kamdhenu", "note": "Pedigree animals above 2,00,000." },
+    "Red_Sindhi": { "lowInr": 40000, "highInr": 100000, "source": "kamdhenu" },
+    "Tharparkar": { "lowInr": 40000, "highInr": 90000, "source": "kamdhenu", "note": "Dealer listings span about 20,000 to 1,40,000." },
+    "Rathi": { "lowInr": 40000, "highInr": 90000, "source": "kamdhenu", "note": "One dealer-guide figure for Rathi alone is 45,000 to 60,000." },
+    "Kankrej": { "lowInr": 35000, "highInr": 80000, "source": "kamdhenu" },
+    "Hariana": { "lowInr": 35000, "highInr": 80000, "source": "kamdhenu" },
+    "Ongole": { "lowInr": 35000, "highInr": 80000, "source": "kamdhenu", "note": "Ongole is mainly a draught breed; show and export animals sell far higher." },
+    "Punganur": { "lowInr": 50000, "highInr": 150000, "source": "kamdhenu", "note": "Show animals sell far higher." },
+    "Vechur": { "lowInr": 65000, "highInr": 110000, "source": "kamdhenu" }
+  },
+  "sources": {
+    "kamdhenu": {
+      "title": "Desi Cow Milk Per Day: 13 Indian Breeds Compared (2026), Kamdhenu Gauveda Team, 3 Oct 2026",
+      "url": "https://kamdhenugauveda.com/desi-cow-milk-per-day/",
+      "checked": "Page fetched and read on 26 Oct 2026. A breed-guide table, not transaction data."
+    }
+  },
+  "corroboration": [
+    "Mahalakshmi Dairy Farm, Karnal (dealer): Gir about 1,00,000-1,25,000; Sahiwal and Tharparkar about 40,000-60,000 (https://www.exportersindia.com/maha-laxmi-dairy-farm/livestock.htm). Seen in search-result summaries only.",
+    "TradeIndia: Rathi 45,000-60,000 (https://www.tradeindia.com/question-answer/how-much-does-the-rathi-cow-cost/); Gir listings about 35,000-85,000. Seen in search-result summaries only.",
+    "Pashushala: Tharparkar listings 20,000-1,40,000 (https://www.pashushala.com/page/category/category?category=Cow&breed=Tharparkar). Seen in search-result summaries only.",
+    "A guide notes a cow bought at the breeding tract can cost much more after transport to a city, and a recorded-pedigree cow can sell for 50-70% more than an unrecorded one with the same milk."
+  ],
+  "not_modelled": [
+    "Bulls and draught animals (for example Kangayam bulls Rs 40,000-70,000 at a village fair, up to 1-1.5 lakh for strong bloodlines; Hallikar and Ongole bullocks). The estimator assumes a milch cow.",
+    "Pedigree and milk-record premiums, region, season, age, lactation stage, and the animal's condition."
+  ]
+}

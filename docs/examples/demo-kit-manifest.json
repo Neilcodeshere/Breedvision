@@ -1,0 +1,86 @@
+[
+  {
+    "file": "confident_right_1.jpg",
+    "group": "confident_right",
+    "true_breed": "siri",
+    "predicted": "siri",
+    "confidence": 0.957,
+    "top3": [
+      "siri",
+      "Kenkatha",
+      "gaolao"
+    ]
+  },
+  {
+    "file": "confident_right_2.jpg",
+    "group": "confident_right",
+    "true_breed": "Purnea",
+    "predicted": "Purnea",
+    "confidence": 0.969,
+    "top3": [
+      "Purnea",
+      "Nari",
+      "nagori"
+    ]
+  },
+  {
+    "file": "confident_right_3.png",
+    "group": "confident_right",
+    "true_breed": "Sahiwal",
+    "predicted": "Sahiwal",
+    "confidence": 0.968,
+    "top3": [
+      "Sahiwal",
+      "Red_Sindhi",
+      "Gir"
+    ]
+  },
+  {
+    "file": "uncertain_1.jpg",
+    "group": "uncertain",
+    "true_breed": "ghumsari",
+    "predicted": "ghumsari",
+    "confidence": 0.47,
+    "top3": [
+      "ghumsari",
+      "gangatari",
+      "dagri"
+    ]
+  },
+  {
+    "file": "uncertain_2.jpg",
+    "group": "uncertain",
+    "true_breed": "dagri",
+    "predicted": "Deoni",
+    "confidence": 0.517,
+    "top3": [
+      "Deoni",
+      "Ongole",
+      "dagri"
+    ]
+  },
+  {
+    "file": "confident_wrong_1.jpg",
+    "group": "confident_wrong",
+    "true_breed": "Kangayam",
+    "predicted": "Pulikulam",
+    "confidence": 0.951,
+    "top3": [
+      "Pulikulam",
+      "Bargur",
+      "Kangayam"
+    ]
+  },
+  {
+    "file": "low_1.jpg",
+    "group": "low",
+    "true_breed": "Kenkatha",
+    "predicted": "nagori",
+    "confidence": 0.258,
+    "top3": [
+      "nagori",
+      "Krishna_Valley",
+      "badri"
+    ]
+  }
+]

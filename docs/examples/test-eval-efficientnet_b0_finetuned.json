@@ -1,0 +1,153 @@
+{
+  "run_id": "phase2-frozen-baseline__efficientnet_b0_ft",
+  "bundle_sha256": "95632e5f698562c3a54ad48feb8fb5b8e39b55f51ad63a01e1f0f122fdde28b5",
+  "evaluated_utc": "2026-10-25T18:46:15.064656+00:00",
+  "split": "test",
+  "temperature": 0.8551,
+  "thresholds": {
+    "confident": 0.85,
+    "low_below": 0.3
+  },
+  "metrics": {
+    "accuracy": 0.6193895870736086,
+    "macro_f1": 0.5829879956568638,
+    "weighted_f1": 0.6178999280616195,
+    "macro_precision": 0.5949153599569209,
+    "macro_recall": 0.5918568606446158,
+    "n_samples": 1114,
+    "top1_accuracy": 0.6193895870736086,
+    "top3_accuracy": 0.8303411131059246,
+    "top5_accuracy": 0.9048473967684022
+  },
+  "accuracy_95ci_bootstrap": [
+    0.5879712746858169,
+    0.6463195691202872
+  ],
+  "ece_after_temperature": 0.04765671594620179,
+  "bands": {
+    "confident": {
+      "n": 272,
+      "share": 0.24416517055655296,
+      "top1_accuracy": 0.9007352941176471,
+      "top3_accuracy": 0.9595588235294118
+    },
+    "uncertain": {
+      "n": 736,
+      "share": 0.6606822262118492,
+      "top1_accuracy": 0.5706521739130435,
+      "top3_accuracy": 0.8274456521739131
+    },
+    "low": {
+      "n": 106,
+      "share": 0.09515260323159784,
+      "top1_accuracy": 0.2358490566037736,
+      "top3_accuracy": 0.5188679245283019
+    }
+  },
+  "validation_metrics_for_comparison": {
+    "accuracy": 0.6609865470852018,
+    "macro_f1": 0.6376206630795875,
+    "weighted_f1": 0.6608538765137306,
+    "macro_precision": 0.646338535706008,
+    "macro_recall": 0.6423562440452608,
+    "n_samples": 1115,
+    "top1_accuracy": 0.6609865470852018,
+    "top3_accuracy": 0.8493273542600897,
+    "top5_accuracy": 0.9022421524663677
+  },
+  "worst_classes": [
+    {
+      "class": "dagri",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 14
+    },
+    {
+      "class": "gaolao",
+      "precision": 0.4,
+      "recall": 0.15384615384615385,
+      "f1": 0.2222222222222222,
+      "support": 13
+    },
+    {
+      "class": "kherigarh",
+      "precision": 0.25,
+      "recall": 0.2,
+      "f1": 0.2222222222222222,
+      "support": 15
+    },
+    {
+      "class": "gangatari",
+      "precision": 0.25,
+      "recall": 0.3125,
+      "f1": 0.2777777777777778,
+      "support": 16
+    },
+    {
+      "class": "Krishna_Valley",
+      "precision": 0.35714285714285715,
+      "recall": 0.2631578947368421,
+      "f1": 0.30303030303030304,
+      "support": 19
+    },
+    {
+      "class": "malvi",
+      "precision": 0.2727272727272727,
+      "recall": 0.45,
+      "f1": 0.33962264150943394,
+      "support": 20
+    },
+    {
+      "class": "Shweta Kapila",
+      "precision": 0.3225806451612903,
+      "recall": 0.38461538461538464,
+      "f1": 0.3508771929824561,
+      "support": 26
+    },
+    {
+      "class": "Lakhimi",
+      "precision": 0.4666666666666667,
+      "recall": 0.3888888888888889,
+      "f1": 0.42424242424242425,
+      "support": 18
+    }
+  ],
+  "best_classes": [
+    {
+      "class": "Poda Thirupu",
+      "precision": 0.7575757575757576,
+      "recall": 0.9615384615384616,
+      "f1": 0.847457627118644,
+      "support": 26
+    },
+    {
+      "class": "siri",
+      "precision": 0.9166666666666666,
+      "recall": 0.8461538461538461,
+      "f1": 0.88,
+      "support": 26
+    },
+    {
+      "class": "Purnea",
+      "precision": 0.9714285714285714,
+      "recall": 0.8717948717948718,
+      "f1": 0.918918918918919,
+      "support": 39
+    },
+    {
+      "class": "ponwar",
+      "precision": 0.8857142857142857,
+      "recall": 0.96875,
+      "f1": 0.9253731343283582,
+      "support": 32
+    },
+    {
+      "class": "bhelai",
+      "precision": 0.9473684210526315,
+      "recall": 0.9473684210526315,
+      "f1": 0.9473684210526315,
+      "support": 19
+    }
+  ]
+}

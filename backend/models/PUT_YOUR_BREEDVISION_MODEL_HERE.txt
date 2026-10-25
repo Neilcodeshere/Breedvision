@@ -1,0 +1,2 @@
+Put your trained YOLO weights here as breedvision.pt
+Example: backend/models/breedvision.pt

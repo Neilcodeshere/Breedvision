@@ -1,0 +1,77 @@
+# BreedVision — Phase 2 experiment configuration.
+#
+# Experiments are defined here, not hardcoded in train.py. Every run records
+# the resolved config alongside its metrics so results stay reproducible and
+# comparable (Engineering Principle 6).
+
+experiment:
+  # Bumped when the meaning of a run changes, not on every execution.
+  name: phase2-frozen-baseline
+  dataset_version: v1
+  seed: 42
+
+data:
+  # Splits come from the Phase 1 pipeline; nothing is re-split here.
+  splits_parquet: "C:/bv-data/metadata/splits.parquet"
+  class_mapping: "C:/bv-data/metadata/class_mapping.json"
+  image_root: "C:/bv-data/raw"
+
+preprocess:
+  # 60% of this dataset has a short edge below 224 px (dataset-report §7.2), so
+  # larger inputs would mostly upscale. 224 is the honest default; any larger
+  # variant must be justified by a measured gain, not assumed.
+  image_size: 224
+  # ImageNet statistics — required because the backbones are ImageNet-pretrained.
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  # 1,024 RGBA + 25 palette + 4 greyscale images exist (dataset-report §7.3).
+  # Every image is converted to RGB on load; this flag exists to document that
+  # it is deliberate, not incidental.
+  force_rgb: true
+
+# Backbones compared in this phase. The brief requires that EfficientNet is not
+# assumed best, so a residual and a mobile architecture are evaluated on equal
+# terms. `timm` names; all use ImageNet-1k pretrained weights.
+backbones:
+  - key: resnet50
+    timm_name: resnet50.a1_in1k
+  - key: efficientnet_b0
+    timm_name: efficientnet_b0.ra_in1k
+  - key: mobilenetv3_100
+    timm_name: mobilenetv3_large_100.ra_in1k
+
+# Stage 1: frozen backbone. Features are extracted once per backbone and
+# cached, then only a linear head is trained. This is the standard transfer
+# baseline and it is what makes a three-way comparison tractable without a GPU.
+head:
+  type: linear
+  epochs: 40
+  batch_size: 256
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  # Class sizes range 83–421 (5.1x). Balanced weighting stops the head simply
+  # favouring the larger classes; its effect is measured, not assumed.
+  class_weighting: balanced
+  early_stopping_patience: 8
+
+# Stage 2: controlled fine-tuning. Left disabled until the frozen baseline is
+# understood and a GPU decision is made — full fine-tuning on 12 CPU threads is
+# not practical for a three-way comparison.
+finetune:
+  enabled: false
+  unfreeze_last_n_blocks: 2
+  epochs: 15
+  learning_rate: 0.0001
+  batch_size: 32
+
+eval:
+  # Reported for every run. Accuracy alone is not sufficient on a 49-class,
+  # 5.1x-imbalanced problem.
+  topk: [1, 3, 5]
+  # Number of images timed individually for the latency figure.
+  latency_samples: 100
+
+paths:
+  # Gitignored. Feature caches are large; checkpoints are versioned by run id.
+  features: "C:/bv-data/features"
+  runs: "C:/bv-data/runs"
